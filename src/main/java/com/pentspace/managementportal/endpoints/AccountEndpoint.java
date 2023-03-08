@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "account")
-public class UserManagementEndpoint {
+public class AccountEndpoint {
     @Autowired
     private UserManagementServiceClient userManagementServiceClient;
 

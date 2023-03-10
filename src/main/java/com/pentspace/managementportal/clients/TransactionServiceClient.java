@@ -26,7 +26,7 @@ public interface TransactionServiceClient {
     @PutMapping(path = "/status/update", produces = "application/json")
     Transaction updateAccountStatus(@RequestParam("id") String id, @RequestParam("status") String status);
 
-    @PutMapping(path = "/validate", produces = "application/json")
-    String validateTransaction(@RequestParam("id") String id, @RequestParam("otp") String otp);
+    @PutMapping(path = "/deposit/status", produces = "application/json")
+    String getDepositStatus(@RequestParam("id") String id, @RequestParam("otp") String otp);
 
 }

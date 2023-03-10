@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "service")
+@CrossOrigin(origins = "*")
 public class ServiceEndpoint {
     @Autowired
     private UserManagementServiceClient userManagementServiceClient;

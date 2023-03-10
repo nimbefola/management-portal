@@ -30,6 +30,7 @@ public class Account{
     private String profileImageBase64;
     private Set<Service> services;
     private Address address;
+    private BankDetail bankDetail;
     private BigDecimal balance;
 
 }

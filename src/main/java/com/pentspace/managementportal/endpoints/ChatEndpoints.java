@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequestMapping(path = "chat")
+@CrossOrigin(origins = "*")
 public class ChatEndpoints {
     @Autowired
     private ChatServiceClient chatServiceClient;

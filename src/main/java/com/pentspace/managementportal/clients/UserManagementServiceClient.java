@@ -1,7 +1,9 @@
 package com.pentspace.managementportal.clients;
 
+import com.pentspace.managementportal.configs.FeignSupportConfig;
 import com.pentspace.managementportal.dto.*;
 import com.pentspace.managementportal.model.Account;
+import com.pentspace.managementportal.model.Bank;
 import com.pentspace.managementportal.model.Service;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
@@ -11,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.List;
 
-@FeignClient(value = "UserManagementServiceClient", url = "http://localhost:30301/")
+@FeignClient(value = "UserManagementServiceClient", url = "http://localhost:30301/", configuration = FeignSupportConfig.class)
 public interface UserManagementServiceClient {
 
     @PostMapping(path = "account", produces = "application/json", consumes = "application/json")
@@ -33,19 +35,25 @@ public interface UserManagementServiceClient {
     Account updateAccountStatus(@RequestParam("id") String id, @RequestParam("status") String status);
 
     @PostMapping(path = "account/profile/picture/upload/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    Account uploadProfilePicture(@PathVariable("id") String id, @RequestParam("file") MultipartFile file);
+    Account uploadProfilePicture(@PathVariable("id") String id, @RequestPart("file") MultipartFile file);
 
     @PostMapping(path = "account/service/link", consumes = "application/json", produces = "application/json")
     Account linkAccountToService(@RequestBody @Valid AccountServiceLinkDTO accountServiceLinkDTO);
 
-    @PutMapping(path = "account/transfer", produces = "text/plain")
-    String transfer(@RequestParam("sourceId") String sourceId, @RequestParam("beneficiaryId") String beneficiaryId, @RequestParam("amount") String amount);
+    @GetMapping(path = "account/enquiry/{msisdn}", produces = "application/json")
+    Account getAccountByMsisdn(@PathVariable("msisdn") String msisdn);
 
-    @PutMapping(path = "account/withdraw", produces = "text/plain")
-    String withdraw(@RequestParam("beneficiaryId") String beneficiaryId, @RequestParam("amount") String amount);
+    @PostMapping(path = "account/transfer", consumes = "application/json", produces = "application/json")
+    String transfer(@RequestBody TransferDTO transferDTO);
 
-//    @PutMapping(path = "account/deposit", produces = "text/plain")
-//    String deposit(@RequestParam("beneficiaryId") String beneficiaryId, @RequestParam("externalTransactionId") String externalTransactionId);
+    @PostMapping(path = "account/withdraw",consumes = "application/json", produces = "application/json")
+    String withdraw(@RequestBody WithdrawDTO withdrawDTO);
+
+    @PutMapping(path = "account/payment/{beneficiaryId}/{externalTransactionId}", produces = "application/json")
+    String payment(@PathVariable("beneficiaryId") String beneficiaryId, @PathVariable("externalTransactionId") String externalTransactionId);
+
+    @GetMapping(path = "account/deposit/status/check/{externalTransactionId}", produces = "application/json")
+    PaystackPaymentStatusDTO getDepositStatus(@PathVariable("externalTransactionId") String externalTransactionId);
 
     @PostMapping(path = "service", produces = "application/json", consumes = "application/json")
     Service create(@RequestBody @Valid ServiceDTO serviceDTO);
@@ -56,4 +64,9 @@ public interface UserManagementServiceClient {
     @GetMapping(path = "service", produces = "application/json")
     List<Service> getAllService();
 
+    @GetMapping(path = "bank/{id}", produces = "application/json")
+    Bank getBankById(@PathVariable("id") String bankId);
+
+    @GetMapping(path = "bank", produces = "application/json")
+    List<Bank> getAllBanks();
 }

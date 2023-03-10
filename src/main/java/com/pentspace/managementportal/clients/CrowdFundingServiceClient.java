@@ -32,7 +32,7 @@ public interface CrowdFundingServiceClient {
     List<Project> getByAccountId(@PathVariable ("id") String id);
 
     @PostMapping(path = "/picture/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    Project uploadProfilePicture(@RequestParam("id") String id, @RequestParam("file") MultipartFile file);
+    Project uploadProjectPicture(@RequestParam("id") String id, @RequestPart("file") MultipartFile file);
 
     @PutMapping(path = "/status/update", produces = "application/json")
     Project updateProjectStatus(@RequestParam("id") String id, @RequestParam("status") String status);

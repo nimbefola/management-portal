@@ -13,7 +13,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "project")
-public class ProjectEndpoint {
+@CrossOrigin(origins = "*")
+public class CrowdFundingEndpoint {
     @Autowired
     private CrowdFundingServiceClient crowdFundingServiceClient;
 
@@ -43,8 +44,8 @@ public class ProjectEndpoint {
     }
 
     @PostMapping(path = "/picture/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Project> uploadProfilePicture(@RequestParam("id") String id, @RequestParam("file") MultipartFile file) {
-        return new ResponseEntity<>(crowdFundingServiceClient.uploadProfilePicture(id, file),HttpStatus.OK);
+    public ResponseEntity<Project> uploadProjectPicture(@RequestParam("id") String id, @RequestParam("file") MultipartFile file) {
+        return new ResponseEntity<>(crowdFundingServiceClient.uploadProjectPicture(id, file),HttpStatus.OK);
     }
 
     @PutMapping(path = "/status/update", produces = "application/json")

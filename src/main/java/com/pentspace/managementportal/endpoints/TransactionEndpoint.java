@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "transaction")
+@CrossOrigin(origins = "*")
 public class TransactionEndpoint {
     @Autowired
     private TransactionServiceClient transactionServiceClient;
@@ -35,9 +36,9 @@ public class TransactionEndpoint {
         return new ResponseEntity<>(transactionServiceClient.updateAccountStatus(id, status), HttpStatus.OK);
     }
 
-    @PutMapping(path = "/validate", produces = "application/json")
-    public ResponseEntity<String> validateTransaction(@RequestParam("id") String id, @RequestParam("otp") String otp){
-        return new ResponseEntity<>(transactionServiceClient.validateTransaction(id, otp), HttpStatus.OK);
+    @PutMapping(path = "/deposit/status", produces = "application/json")
+    public ResponseEntity<String> getDepositStatus(@RequestParam("id") String id, @RequestParam("otp") String otp){
+        return new ResponseEntity<>(transactionServiceClient.getDepositStatus(id, otp), HttpStatus.OK);
     }
 
 }

@@ -1,10 +1,7 @@
 package com.pentspace.managementportal.endpoints;
 
 import com.pentspace.managementportal.clients.UserManagementServiceClient;
-import com.pentspace.managementportal.dto.AccountDTO;
-import com.pentspace.managementportal.dto.AccountServiceLinkDTO;
-import com.pentspace.managementportal.dto.LoginDTO;
-import com.pentspace.managementportal.dto.RegistrationCompletionDTO;
+import com.pentspace.managementportal.dto.*;
 import com.pentspace.managementportal.model.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "account")
+@CrossOrigin(origins = "*")
 public class AccountEndpoint {
     @Autowired
     private UserManagementServiceClient userManagementServiceClient;
@@ -62,20 +60,29 @@ public class AccountEndpoint {
         return new ResponseEntity<>(userManagementServiceClient.linkAccountToService(accountServiceLinkDTO), HttpStatus.OK);
     }
 
-    @PutMapping(path = "/transfer", produces = "text/plain")
-    public ResponseEntity<String> transfer(@RequestParam("sourceId") String sourceId, @RequestParam("beneficiaryId") String beneficiaryId, @RequestParam("amount") String amount){
-        return new ResponseEntity<>(userManagementServiceClient.transfer(sourceId, beneficiaryId, amount), HttpStatus.OK);
+    @GetMapping(path = "enquiry/{msisdn}", produces = "application/json")
+    public ResponseEntity<Account> getAccountByMsisdn(@PathVariable("msisdn") String msisdn){
+        return new ResponseEntity<>(userManagementServiceClient.getAccountByMsisdn(msisdn), HttpStatus.OK);
     }
 
-    @PutMapping(path = "/withdraw", produces = "text/plain")
-    public ResponseEntity<String> withdraw(@RequestParam("beneficiaryId") String beneficiaryId, @RequestParam("amount") String amount){
-        return new ResponseEntity<>(userManagementServiceClient.withdraw(beneficiaryId, amount), HttpStatus.OK);
+    @PostMapping(path = "/transfer", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<String> transfer(@RequestBody TransferDTO transferDTO){
+        return new ResponseEntity<>(userManagementServiceClient.transfer(transferDTO), HttpStatus.OK);
     }
 
-    @PutMapping(path = "/deposit", produces = "text/plain")
-    public ResponseEntity<String> deposit(@RequestParam("beneficiaryId") String beneficiaryId, @RequestParam("externalTransactionId") String externalTransactionId){
-        // return new ResponseEntity<>(accountHandler.deposit(beneficiaryId, externalTransactionId), HttpStatus.OK);
-        return new ResponseEntity<>(" Awaiting Implementation ", HttpStatus.OK);
+    @PostMapping(path = "/withdraw",consumes = "application/json", produces = "application/json")
+    public ResponseEntity<String> withdraw(@RequestBody WithdrawDTO withdrawDTO){
+        return new ResponseEntity<>(userManagementServiceClient.withdraw(withdrawDTO), HttpStatus.OK);
+    }
+
+    @PutMapping(path = "/payment", produces = "text/plain")
+    public ResponseEntity<String> payment(@RequestParam("beneficiaryId") String beneficiaryId, @RequestParam("externalTransactionId") String externalTransactionId){
+         return new ResponseEntity<>(userManagementServiceClient.payment(beneficiaryId, externalTransactionId), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "deposit/status/check/{externalTransactionId}", produces = "application/json")
+    public ResponseEntity<PaystackPaymentStatusDTO> getDepositStatus(@PathVariable("externalTransactionId") String externalTransactionId){
+        return new ResponseEntity<>(userManagementServiceClient.getDepositStatus(externalTransactionId), HttpStatus.OK);
     }
 
 }

@@ -16,7 +16,7 @@ import java.util.List;
 public interface FeedServiceClient {
 
     @PostMapping( consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    Feed create(@RequestParam("file") MultipartFile file, @RequestParam("message") String message, @RequestParam("username") String username );
+    Feed create(@RequestPart("file") MultipartFile file, @RequestParam("message") String message, @RequestParam("username") String username );
 
     @GetMapping(path = "/{id}", produces = "application/json")
     Feed getById(@PathVariable("id") String id);

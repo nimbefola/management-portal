@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "feed")
+@CrossOrigin(origins = "*")
 public class FeedEndpoint {
     @Autowired
     private FeedServiceClient feedServiceClient;

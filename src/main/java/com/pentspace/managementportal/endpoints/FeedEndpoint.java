@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "feed")
+@RequestMapping(path = "/feed")
 @CrossOrigin(origins = "*")
 public class FeedEndpoint {
     @Autowired

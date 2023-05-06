@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+//Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWxhbWtvcmVkZTM0NUBnbWFpbC5jb20iLCJhY2NvdW50eXBlIjoiU0VSVklDRV9QUk9WSURFUiIsImlzcyI6InBlbnRzcGFjZSIsImlhdCI6MTY4Mjk0NTE3MywiZXhwIjoxNjgzMDMxNTczfQ.70ZotP9XDlxuWS8aDOb1lAGbAN_MOzAKVhCUbYRy13Oa5oPBXkNWP8R8ZYSn04E1Jc9e0xD80UaIuGJf4Uc4zQ
+//
+
 @FeignClient(value = "ChatServiceClient", url = "http://localhost:30306/chat")
 public interface ChatServiceClient {
 

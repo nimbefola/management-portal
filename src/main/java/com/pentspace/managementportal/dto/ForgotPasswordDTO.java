@@ -3,7 +3,7 @@ package com.pentspace.managementportal.dto;
 import lombok.Data;
 
 @Data
-public class LoginDTO {
+public class ForgotPasswordDTO {
+
     private String email;
-    private String password;
 }

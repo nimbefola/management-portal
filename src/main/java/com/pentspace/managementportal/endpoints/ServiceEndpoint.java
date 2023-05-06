@@ -19,8 +19,8 @@ public class ServiceEndpoint {
     private UserManagementServiceClient userManagementServiceClient;
 
     @PostMapping(produces = "application/json", consumes = "application/json")
-    public ResponseEntity<Service> create(@RequestBody @Valid ServiceDTO serviceDTO) {
-        return new ResponseEntity<>(userManagementServiceClient.create(serviceDTO), HttpStatus.OK);
+    public ResponseEntity<Service> create(@RequestBody @Valid ServiceDTO serviceDTO,@RequestParam("authentication") String authentication) {
+        return new ResponseEntity<>(userManagementServiceClient.create(serviceDTO,authentication), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}", produces = "application/json")

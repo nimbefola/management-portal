@@ -3,6 +3,8 @@ package com.pentspace.managementportal.endpoints;
 import com.pentspace.managementportal.clients.UserManagementServiceClient;
 import com.pentspace.managementportal.dto.*;
 import com.pentspace.managementportal.model.Account;
+import com.pentspace.managementportal.model.enums.AccountStatus;
+import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,68 +23,155 @@ public class AccountEndpoint {
     private UserManagementServiceClient userManagementServiceClient;
 
     @PostMapping( produces = "application/json", consumes = "application/json")
-    public ResponseEntity<Account> create(@RequestBody @Valid AccountDTO request) {
-        return new ResponseEntity<>(userManagementServiceClient.create(request), HttpStatus.OK);
+    public ResponseEntity<?> create(@RequestBody @Valid AccountDTO request) {
+        try {
+            return new ResponseEntity<>(userManagementServiceClient.create(request), HttpStatus.OK);
+        }
+        catch (Exception exception){
+            return new ResponseEntity<>(exception.getMessage(),HttpStatus.BAD_REQUEST);
+        }
     }
 
-    @PostMapping(path = "/complete/registration", produces = "application/json")
-    public ResponseEntity<Account> completeRegistration(@RequestBody RegistrationCompletionDTO request){
-        return new ResponseEntity<>(userManagementServiceClient.completeRegistration(request), HttpStatus.OK);
+    @PostMapping(path = "/validate")
+    public ResponseEntity<?> validate(@RequestBody @Valid ValidateDto request){
+        try{
+            return new ResponseEntity<>(userManagementServiceClient.validate(request), HttpStatus.OK);
+        }
+        catch (Exception exception){
+            return new ResponseEntity<>(exception.getMessage(),HttpStatus.BAD_REQUEST);
+        }
     }
 
-    @PostMapping(path = "/auth", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<Account> authenticateAccount(@RequestBody LoginDTO loginDTO){
-        return new ResponseEntity<>(userManagementServiceClient.authenticateAccount(loginDTO), HttpStatus.OK);
+    @PostMapping(path = "/login")
+    public ResponseEntity<?> login(@RequestBody @Valid LoginDTO request) {
+        try{
+            return new ResponseEntity<>(userManagementServiceClient.login(request), HttpStatus.OK);
+        }
+        catch (Exception exception){
+            return new ResponseEntity<>(exception.getMessage(),HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping(path = "/changePassword")
+    public ResponseEntity<?> changePassword(@RequestBody @Valid ChangePasswordDTO request,@RequestParam("authentication") String authentication) {
+        try{
+            return new ResponseEntity<>(userManagementServiceClient.changePassword(request,authentication), HttpStatus.OK);
+        }
+        catch (Exception exception){
+            return new ResponseEntity<>(exception.getMessage(),HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping(path = "/forgotPassword")
+    public ResponseEntity<?> forgotPassword(@RequestBody @Valid ForgotPasswordDTO request) {
+        try{
+            return new ResponseEntity<>(userManagementServiceClient.forgotPassword(request), HttpStatus.OK);
+        }
+        catch (Exception exception){
+            return new ResponseEntity<>(exception.getMessage(),HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping(path = "/validateTokenAndPassword")
+    public ResponseEntity<?> retrievePassword(@RequestBody @Valid RetrieveForgotPasswordDTO request) {
+        try{
+            return new ResponseEntity<>(userManagementServiceClient.retrievePassword(request), HttpStatus.OK);
+        }
+        catch (Exception exception){
+            return new ResponseEntity<>(exception.getMessage(),HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping(path = "/{id}", produces = "application/json")
-    public ResponseEntity<Account> getById(@PathVariable("id") String id){
-        return new ResponseEntity<>(userManagementServiceClient.getById(id), HttpStatus.OK);
+    public ResponseEntity<?> getById(@PathVariable("id") String id){
+        try {
+            return new ResponseEntity<>(userManagementServiceClient.getById(id), HttpStatus.OK);
+        }
+        catch (Exception exception){
+            return new ResponseEntity<>(exception.getMessage(),HttpStatus.BAD_REQUEST);
+        }
     }
+
 
     @GetMapping(produces = "application/json")
-    public ResponseEntity<List<Account>> getAll(){
-        return new ResponseEntity<>(userManagementServiceClient.getAll(), HttpStatus.OK);
+    public ResponseEntity<?> getAll(@RequestParam("authentication") String authentication){
+        try {
+            return new ResponseEntity<>(userManagementServiceClient.getAll(authentication), HttpStatus.OK);
+        } catch (Exception exception) {
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
+
     @PutMapping(path = "/status/update", produces = "application/json")
-    public ResponseEntity<Account> updateAccountStatus(@RequestParam("id") String id, @RequestParam("status") String status){
-        return new ResponseEntity<>(userManagementServiceClient.updateAccountStatus(id, status), HttpStatus.OK);
+    public ResponseEntity<?> updateAccountStatus(@RequestParam("id") String id, @RequestParam("status") String status,@RequestParam("authentication") String authentication) {
+        try {
+            return new ResponseEntity<>(userManagementServiceClient.updateAccountStatus(id, status, authentication), HttpStatus.OK);
+        } catch (Exception exception) {
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping(path = "profile/picture/upload/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Account> uploadProfilePicture(@PathVariable("id") String id, @RequestParam("file") MultipartFile file) {
-        return new ResponseEntity<>(userManagementServiceClient.uploadProfilePicture(id, file),HttpStatus.OK);
+    public ResponseEntity<?> uploadProfilePicture(@PathVariable("id") String id, @RequestParam("file") MultipartFile file,@RequestParam("authentication") String authentication) {
+        try{
+            return new ResponseEntity<>(userManagementServiceClient.uploadProfilePicture(id, file,authentication),HttpStatus.OK);
+        } catch (Exception exception) {
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping(path = "service/link", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Account> linkAccountToService(@RequestBody @Valid AccountServiceLinkDTO accountServiceLinkDTO){
-        return new ResponseEntity<>(userManagementServiceClient.linkAccountToService(accountServiceLinkDTO), HttpStatus.OK);
+    public ResponseEntity<?> linkAccountToService(@RequestBody @Valid AccountServiceLinkDTO accountServiceLinkDTO,@RequestParam("authentication") String authentication){
+        try{
+            return new ResponseEntity<>(userManagementServiceClient.linkAccountToService(accountServiceLinkDTO,authentication), HttpStatus.OK);
+        } catch (Exception exception) {
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
+
     @GetMapping(path = "enquiry/{msisdn}", produces = "application/json")
-    public ResponseEntity<Account> getAccountByMsisdn(@PathVariable("msisdn") String msisdn){
-        return new ResponseEntity<>(userManagementServiceClient.getAccountByMsisdn(msisdn), HttpStatus.OK);
+    public ResponseEntity<?> getAccountByMsisdn(@PathVariable("msisdn") String msisdn,@RequestParam("authentication") String authentication){
+        try{
+            return new ResponseEntity<>(userManagementServiceClient.getAccountByMsisdn(msisdn,authentication), HttpStatus.OK);
+        } catch (Exception exception) {
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping(path = "/transfer", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<String> transfer(@RequestBody TransferDTO transferDTO){
-        return new ResponseEntity<>(userManagementServiceClient.transfer(transferDTO), HttpStatus.OK);
+    public ResponseEntity<String> transfer(@RequestBody TransferDTO transferDTO,@RequestParam("authentication") String authentication){
+        try{
+            return new ResponseEntity<>(userManagementServiceClient.transfer(transferDTO,authentication), HttpStatus.OK); //,authentication
+        } catch (Exception exception) {
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
-    @PostMapping(path = "/withdraw",consumes = "application/json", produces = "application/json")
-    public ResponseEntity<String> withdraw(@RequestBody WithdrawDTO withdrawDTO){
-        return new ResponseEntity<>(userManagementServiceClient.withdraw(withdrawDTO), HttpStatus.OK);
+    @PostMapping(path = "/withdraw", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?> withdraw(@RequestBody WithdrawDTO withdrawDTO,@RequestParam("authentication") String authentication){
+        try {
+            return new ResponseEntity<>(userManagementServiceClient.withdraw(withdrawDTO,authentication), HttpStatus.OK);
+        } catch (Exception exception) {
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
-    @PutMapping(path = "/payment", produces = "text/plain")
-    public ResponseEntity<String> payment(@RequestParam("beneficiaryId") String beneficiaryId, @RequestParam("externalTransactionId") String externalTransactionId){
-         return new ResponseEntity<>(userManagementServiceClient.payment(beneficiaryId, externalTransactionId), HttpStatus.OK);
+    @PutMapping(path = "/payment/{beneficiaryId}/{externalTransactionId}", produces = "application/json")
+    public ResponseEntity<String> payment(@PathVariable("beneficiaryId") String beneficiaryId, @PathVariable("externalTransactionId") String externalTransactionId,@RequestParam("authentication") String authentication){
+        try {
+            return new ResponseEntity<>(userManagementServiceClient.payment(beneficiaryId, externalTransactionId,authentication), HttpStatus.OK);
+        } catch (Exception exception) {
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
-    @GetMapping(path = "deposit/status/check/{externalTransactionId}", produces = "application/json")
-    public ResponseEntity<PaystackPaymentStatusDTO> getDepositStatus(@PathVariable("externalTransactionId") String externalTransactionId){
-        return new ResponseEntity<>(userManagementServiceClient.getDepositStatus(externalTransactionId), HttpStatus.OK);
-    }
+
+
+//    @GetMapping(path = "deposit/status/check/{externalTransactionId}", produces = "application/json")
+//    public ResponseEntity<PaystackPaymentStatusDTO> getDepositStatus(@PathVariable("externalTransactionId") String externalTransactionId){
+//        return new ResponseEntity<>(userManagementServiceClient.getDepositStatus(externalTransactionId), HttpStatus.OK);
+//    }
 
 }

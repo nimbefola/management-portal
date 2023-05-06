@@ -1,8 +1,11 @@
 package com.pentspace.managementportal.model;
 
+import com.pentspace.managementportal.JWTToken;
 import com.pentspace.managementportal.model.enums.AccountStatus;
 import com.pentspace.managementportal.model.enums.AccountType;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.validation.constraints.Email;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -10,6 +13,7 @@ import java.util.Set;
 
 
 @Data
+@NoArgsConstructor
 public class Account{
     private String id;
     private Date created;
@@ -24,7 +28,6 @@ public class Account{
     private String pin;
     private String profilePictureUrl;
     private String msisdn;
-    private String activationOtp;
     private AccountStatus status;
     private AccountType accountType;
     private String profileImageBase64;
@@ -32,5 +35,6 @@ public class Account{
     private Address address;
     private BankDetail bankDetail;
     private BigDecimal balance;
+    private JWTToken token;
 
 }

@@ -2,9 +2,6 @@ package com.pentspace.managementportal.endpoints;
 
 import com.pentspace.managementportal.clients.UserManagementServiceClient;
 import com.pentspace.managementportal.dto.*;
-import com.pentspace.managementportal.model.Account;
-import com.pentspace.managementportal.model.enums.AccountStatus;
-import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.List;
 //localhost:30301
-@FeignClient(value = "UserManagementServiceClient", url = "https://xx483ppzvi.eu-west-1.awsapprunner.com/", configuration = FeignSupportConfig.class)
+@FeignClient(value = "UserManagementServiceClient", url = "https://localhost:30301/", configuration = FeignSupportConfig.class)
 public interface UserManagementServiceClient {
 
     @PostMapping(path = "account", produces = "application/json", consumes = "application/json")

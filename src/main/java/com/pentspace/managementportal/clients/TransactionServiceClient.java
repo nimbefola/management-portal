@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@FeignClient(value = "TransactionServiceClient", url = "http://localhost:30305/transaction")
+@FeignClient(value = "TransactionServiceClient", url = "https://localhost:30305/transaction")
 public interface TransactionServiceClient {
     @PostMapping(consumes = "application/json", produces = "application/json")
     Transaction create(@RequestBody Transaction transaction);

@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@FeignClient(value = "FeedServiceClient", url = "http://localhost:30303/feed")
+@FeignClient(value = "FeedServiceClient", url = "https://localhost:30303/feed")
 public interface FeedServiceClient {
 
     @PostMapping( consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

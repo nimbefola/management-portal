@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.List;
 
-@FeignClient(value = "CrowdFundingServiceClient", url = "http://localhost:30304/project")
+@FeignClient(value = "CrowdFundingServiceClient", url = "https://localhost:30304/project")
 public interface CrowdFundingServiceClient {
 
     @PostMapping( consumes = "application/json", produces = "application/json")

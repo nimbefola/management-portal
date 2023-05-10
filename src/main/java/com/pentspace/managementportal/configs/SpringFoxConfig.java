@@ -35,8 +35,8 @@ public class SpringFoxConfig {
                 .info(new Info().title("Pentspace Management Service")
                         .version("1.0")
                         .description("Pentspace Management Service")
-                        .termsOfService("http://swagger.io/terms/")
-                        .license(new License().name("Apache 2.0").url("http://springdoc.org")));
+                        .termsOfService("https://swagger.io/terms/")
+                        .license(new License().name("Apache 2.0").url("https://springdoc.org")));
 
     }
 

@@ -5,6 +5,7 @@ import com.pentspace.managementportal.dto.*;
 import com.pentspace.managementportal.model.Account;
 import com.pentspace.managementportal.model.Bank;
 import com.pentspace.managementportal.model.Service;
+import com.pentspace.managementportal.model.User;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +14,12 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.List;
 //localhost:30301
-@FeignClient(value = "UserManagementServiceClient", url = "http://3.252.93.217:30301", configuration = FeignSupportConfig.class)
+//http://3.252.93.217:30301
+@FeignClient(value = "UserManagementServiceClient", url = "http://localhost:30301", configuration = FeignSupportConfig.class)
 public interface UserManagementServiceClient {
+
+    @PostMapping(path = "account/signUp", produces = "application/json")
+    UserSignUpResponseDto signUp(@RequestBody @Valid UserSignUpRequestDto userSignUpRequestDto);
 
     @PostMapping(path = "account", produces = "application/json", consumes = "application/json")
     Account create(@RequestBody @Valid AccountDTO request);
@@ -23,7 +28,7 @@ public interface UserManagementServiceClient {
     boolean validate(@RequestBody @Valid ValidateDto validateDto);
 
     @PostMapping(path = "account/login", produces = "application/json", consumes = "application/json")
-    Account login(@RequestBody LoginDTO loginDTO);
+    User login(@RequestBody LoginDTO loginDTO);
 
     @PostMapping(path = "account/changePassword", produces = "application/json", consumes = "application/json")
     boolean changePassword(@RequestBody ChangePasswordDTO changePasswordDTO,@RequestParam("authentication") String authentication);

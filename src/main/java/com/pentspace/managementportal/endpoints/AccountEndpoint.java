@@ -19,6 +19,16 @@ public class AccountEndpoint {
     @Autowired
     private UserManagementServiceClient userManagementServiceClient;
 
+    @PostMapping("/signUp")
+    public ResponseEntity<?> signUp(@RequestBody @Valid UserSignUpRequestDto userSignUpRequestDto) {
+        try {
+            return new ResponseEntity<>(userManagementServiceClient.signUp(userSignUpRequestDto), HttpStatus.OK);
+        }
+        catch (Exception exception){
+            return new ResponseEntity<>(exception.getMessage(),HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PostMapping( produces = "application/json", consumes = "application/json")
     public ResponseEntity<?> create(@RequestBody @Valid AccountDTO request) {
         try {

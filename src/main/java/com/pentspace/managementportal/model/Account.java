@@ -24,7 +24,6 @@ public class Account{
     @Email(message = "Please provide a valid Email")
     private String email;
     private String username;
-    private String password;
     private String pin;
     private String profilePictureUrl;
     private String msisdn;
@@ -35,6 +34,5 @@ public class Account{
     private Address address;
     private BankDetail bankDetail;
     private BigDecimal balance;
-    private JWTToken token;
 
 }

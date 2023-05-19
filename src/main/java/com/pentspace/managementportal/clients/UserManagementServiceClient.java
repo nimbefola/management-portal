@@ -15,7 +15,7 @@ import javax.validation.Valid;
 import java.util.List;
 //localhost:30301
 //http://3.252.93.217:30301
-@FeignClient(value = "UserManagementServiceClient", url = "http://localhost:30301", configuration = FeignSupportConfig.class)
+@FeignClient(value = "UserManagementServiceClient", url = "http://3.252.93.217:30301", configuration = FeignSupportConfig.class)
 public interface UserManagementServiceClient {
 
     @PostMapping(path = "account/signUp", produces = "application/json")

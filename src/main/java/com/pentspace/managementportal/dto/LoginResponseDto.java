@@ -1,15 +1,12 @@
-package com.pentspace.managementportal.model;
+package com.pentspace.managementportal.dto;
 
 
 import com.pentspace.managementportal.JWTToken;
 import com.pentspace.managementportal.model.enums.Roles;
 import lombok.Data;
 
-import javax.validation.constraints.Email;
-
 @Data
-public class User {
-
+public class LoginResponseDto {
 
     private String id;
 
@@ -17,17 +14,15 @@ public class User {
 
     private String lastName;
 
-
-    private String email;
-
-    private String password;
-
     private String phoneNumber;
 
+    private String password;
+    
+    private Roles roles;
 
     private String country;
 
-    private Roles roles;
+    private String email;
 
     private JWTToken token;
 }

@@ -2,6 +2,8 @@ package com.pentspace.managementportal.clients;
 
 import com.pentspace.managementportal.configs.FeignSupportConfig;
 import com.pentspace.managementportal.dto.*;
+
+
 import com.pentspace.managementportal.model.Account;
 import com.pentspace.managementportal.model.Bank;
 import com.pentspace.managementportal.model.Service;
@@ -11,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.util.List;
 //localhost:30301
@@ -20,24 +23,24 @@ public interface UserManagementServiceClient {
 
     @PostMapping(path = "account/signUp", produces = "application/json")
     UserSignUpResponseDto signUp(@RequestBody @Valid UserSignUpRequestDto userSignUpRequestDto);
-
     @PostMapping(path = "account", produces = "application/json", consumes = "application/json")
     Account create(@RequestBody @Valid AccountDTO request);
 
     @PostMapping(path = "account/validate", produces = "application/json")
-    boolean validate(@RequestBody @Valid ValidateDto validateDto);
+    ValidateDto validate(@RequestBody @Valid ValidateDto validateDto);
 
     @PostMapping(path = "account/login", produces = "application/json", consumes = "application/json")
-    User login(@RequestBody LoginDTO loginDTO);
+    LoginResponseDto login(@RequestBody LoginDTO loginDTO);
 
     @PostMapping(path = "account/changePassword", produces = "application/json", consumes = "application/json")
-    boolean changePassword(@RequestBody ChangePasswordDTO changePasswordDTO,@RequestParam("authentication") String authentication);
+    ChangePasswordDTO changePassword(@RequestBody ChangePasswordDTO changePasswordDTO,@RequestParam("authentication") String authentication)  ;
 
     @PostMapping(path = "account/forgotPassword", produces = "application/json", consumes = "application/json")
-    boolean forgotPassword(@RequestBody ForgotPasswordDTO forgotPasswordDTO);
+    ForgotPasswordDTO forgotPassword(@RequestBody ForgotPasswordDTO forgotPasswordDTO) ;
 
     @PostMapping(path = "account/validateTokenAndPassword", produces = "application/json", consumes = "application/json")
-    boolean retrievePassword(@RequestBody RetrieveForgotPasswordDTO retrieveForgotPasswordDTO);
+    RetrieveForgotPasswordDTO retrievePassword(@RequestBody RetrieveForgotPasswordDTO retrieveForgotPasswordDTO);
+
 
     @GetMapping(path = "account/{id}", produces = "application/json")
     Account getById(@PathVariable("id") String id);

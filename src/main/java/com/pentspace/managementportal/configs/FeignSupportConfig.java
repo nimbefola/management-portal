@@ -1,5 +1,6 @@
 package com.pentspace.managementportal.configs;
 
+import feign.Client;
 import feign.form.spring.SpringFormEncoder;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.ObjectFactory;
@@ -7,6 +8,9 @@ import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.cloud.openfeign.support.SpringEncoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
+
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 
 public class FeignSupportConfig {
     @Bean
@@ -18,4 +22,8 @@ public class FeignSupportConfig {
             }
         }));
     }
+
+
+
+
 }

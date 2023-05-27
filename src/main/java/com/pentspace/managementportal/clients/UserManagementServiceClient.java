@@ -1,5 +1,6 @@
 package com.pentspace.managementportal.clients;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pentspace.managementportal.configs.FeignSupportConfig;
 import com.pentspace.managementportal.dto.*;
 
@@ -10,6 +11,7 @@ import com.pentspace.managementportal.model.Service;
 import com.pentspace.managementportal.model.User;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,15 +20,18 @@ import javax.validation.Valid;
 import java.util.List;
 //localhost:30301
 //http://3.252.93.217:30301
+
+
 @FeignClient(value = "UserManagementServiceClient", url = "http://3.252.93.217:30301", configuration = FeignSupportConfig.class)
 public interface UserManagementServiceClient {
+
 
     @PostMapping(path = "account/signUp", produces = "application/json")
     UserSignUpResponseDto signUp(@RequestBody @Valid UserSignUpRequestDto userSignUpRequestDto);
     @PostMapping(path = "account", produces = "application/json", consumes = "application/json")
     Account create(@RequestBody @Valid AccountDTO request);
 
-    @PostMapping(path = "account/validate", produces = "application/json")
+   @PostMapping(path = "account/validate", produces = "application/json")
     ValidateDto validate(@RequestBody @Valid ValidateDto validateDto);
 
     @PostMapping(path = "account/login", produces = "application/json", consumes = "application/json")

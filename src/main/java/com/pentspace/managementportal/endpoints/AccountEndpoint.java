@@ -10,9 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.mail.MessagingException;
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping(path = "account")
@@ -22,10 +20,10 @@ public class AccountEndpoint {
     private UserManagementServiceClient userManagementServiceClient;
 
     @PostMapping("/signUp")
-    public ResponseEntity<Object> signUp(@RequestBody @Valid UserSignUpRequestDto userSignUpRequestDto) {
+    public ResponseEntity<?> signUp(@RequestBody @Valid UserSignUpRequestDto userSignUpRequestDto) {
 
         UserSignUpResponseDto result = userManagementServiceClient.signUp(userSignUpRequestDto);
-        return ApiSuccessResponse.generateResponse("User successfully Created",HttpStatus.OK,result);
+        return  ApiSuccessResponse.generateResponse("Successfully created user",HttpStatus.OK,result);
 
     }
 
@@ -34,42 +32,39 @@ public class AccountEndpoint {
     public ResponseEntity<Object> validate(@RequestBody @Valid ValidateDto request) {
 
         ValidateDto result = userManagementServiceClient.validate(request);
-        return ApiSuccessResponse.generateResponse("Successfully Validated",HttpStatus.OK,result);
+        return  ApiSuccessResponse.generateResponse("Successfully Validated",HttpStatus.OK,result);
 
     }
 
     @PostMapping(path = "/login")
-    public ResponseEntity<Object> login(@RequestBody @Valid LoginDTO request) {
+    public ResponseEntity<?> login(@RequestBody @Valid LoginDTO request) {
 
         LoginResponseDto result = userManagementServiceClient.login(request);
-
-        return ApiSuccessResponse.generateResponse("Successful Login",HttpStatus.OK,result);
+        return  ApiSuccessResponse.generateResponse("Successful Login",HttpStatus.OK,result);
     }
 
     @PostMapping(path = "/changePassword")
     public ResponseEntity<Object> changePassword(@RequestBody @Valid ChangePasswordDTO request,@RequestParam("authentication") String authentication)  {
 
         ChangePasswordDTO result = userManagementServiceClient.changePassword(request,authentication);
-
-        return ApiSuccessResponse.generateResponse("Password Changed Successfully",HttpStatus.OK,result);
+        return  ApiSuccessResponse.generateResponse("Password Successfully changed",HttpStatus.OK,result);
     }
 
     @PostMapping(path = "/forgotPassword")
     public ResponseEntity<Object> forgotPassword(@RequestBody @Valid ForgotPasswordDTO request)  {
 
         ForgotPasswordDTO result = userManagementServiceClient.forgotPassword(request);
-
-        return  ApiSuccessResponse.generateResponse("Success! Use the token sent to validate and reset password",
-                HttpStatus.OK,result);
+        return  ApiSuccessResponse.generateResponse("Token sent!Kindly validate and reset password",HttpStatus.OK,result);
     }
 
     @PostMapping(path = "/validateTokenAndPassword")
     public ResponseEntity<Object> retrievePassword(@RequestBody @Valid RetrieveForgotPasswordDTO request) {
 
         RetrieveForgotPasswordDTO result = userManagementServiceClient.retrievePassword(request);
-        return ApiSuccessResponse.generateResponse("User successfully recover access",HttpStatus.OK,result);
+        return  ApiSuccessResponse.generateResponse("User account successfully retrieved",HttpStatus.OK,result);
 
     }
+    //eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MTFAZ21haWwuY29tIiwicm9sZXMiOiJCQVNFX1VTRVIiLCJpc3MiOiJwZW50c3BhY2UiLCJpYXQiOjE2ODUxNzA5ODcsImV4cCI6MTY4NTI1NzM4N30.oFxVEXvNr7zm20RqbbJfIVJ-SXmhNvRTMGSWgWwww3V1DB_sW245dnLO1Mczbl4gYkNp_iYMx1bSM7XjWh4wGQ
 
     @PostMapping( produces = "application/json", consumes = "application/json")
     public ResponseEntity<?> create(@RequestBody @Valid AccountDTO request) {

@@ -2,7 +2,6 @@ package com.pentspace.managementportal.exceptions;
 
 
 import com.pentspace.managementportal.ApiErrorResponse;
-import com.pentspace.managementportal.FeignErrorResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -68,6 +67,13 @@ public class CustomizedResponseEntityHandler extends ResponseEntityExceptionHand
         }
         ApiErrorResponse error = new ApiErrorResponse("Validation Failed" );
         return new ResponseEntity(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public final ResponseEntity<ApiErrorResponse> handleUserException(IllegalStateException illegalStateException) {
+        ApiErrorResponse apiErrorResponse = new ApiErrorResponse(illegalStateException.getMessage());
+
+        return new ResponseEntity<>(apiErrorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(FeignClientException.class)
